@@ -1,4 +1,12 @@
-# Configurações globais
-SCREEN_WIDTH = 320
-SCREEN_HEIGHT = 240
-FPS = 30
+WIDTH = 800
+HEIGHT = 600
+
+FPS = 60
+
+TITLE = "RPG - Em busca da neve"
+
+PLAYER_SPEED = 4
+
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+GRAY = (30, 30, 30)
