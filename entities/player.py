@@ -16,17 +16,24 @@ class Player:
 
         keys = pygame.key.get_pressed()
 
+        move_x = 0
+        move_y = 0
+
+        # apenas uma direção por vez
         if keys[pygame.K_UP]:
-            self.rect.y -= PLAYER_SPEED
+            move_y = -PLAYER_SPEED
 
-        if keys[pygame.K_DOWN]:
-            self.rect.y += PLAYER_SPEED
+        elif keys[pygame.K_DOWN]:
+            move_y = PLAYER_SPEED
 
-        if keys[pygame.K_LEFT]:
-            self.rect.x -= PLAYER_SPEED
+        elif keys[pygame.K_LEFT]:
+            move_x = -PLAYER_SPEED
 
-        if keys[pygame.K_RIGHT]:
-            self.rect.x += PLAYER_SPEED
+        elif keys[pygame.K_RIGHT]:
+            move_x = PLAYER_SPEED
+
+        self.rect.x += move_x
+        self.rect.y += move_y
 
     def draw(self, screen):
 
