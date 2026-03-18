@@ -10,15 +10,17 @@ class Player:
             "assets/sprites/player.png"
         ).convert_alpha()
 
+        self.rect = pygame.Rect(x, y, 58, 58)
+
+        # animação
         self.x_sprite = 0
         self.y_sprite = 0
 
-        self.image = pygame.Surface((32, 32), pygame.SRCALPHA)
-        self.rect = self.image.get_rect()
-        self.rect.center = (x, y)
+        self.frame_width = 96
+        self.frame_height = 96
 
         self.animation_timer = 0
-        self.animation_speed = 5
+        self.animation_speed = 8
 
     def update(self):
 
@@ -26,28 +28,31 @@ class Player:
 
         moving = False
 
-        # movimento (SEM diagonal)
-        if keys[pygame.K_UP]:
-            self.rect.y -= PLAYER_SPEED
+        # ↓ frente
+        if keys[pygame.K_DOWN]:
+            self.rect.y += PLAYER_SPEED
             self.y_sprite = 0
             moving = True
 
-        elif keys[pygame.K_DOWN]:
-            self.rect.y += PLAYER_SPEED
-            self.y_sprite = 90
+        # ↑ costas
+        elif keys[pygame.K_UP]:
+            self.rect.y -= PLAYER_SPEED
+            self.y_sprite = 1
             moving = True
 
-        elif keys[pygame.K_RIGHT]:
-            self.rect.x += PLAYER_SPEED
-            self.y_sprite = 172
-            moving = True
-
+        # ← esquerda
         elif keys[pygame.K_LEFT]:
             self.rect.x -= PLAYER_SPEED
-            self.y_sprite = 254
+            self.y_sprite = 2
             moving = True
 
-        # animação só quando anda
+        # → direita
+        elif keys[pygame.K_RIGHT]:
+            self.rect.x += PLAYER_SPEED
+            self.y_sprite = 3
+            moving = True
+
+        # animação
         if moving:
             self.animation_timer += 1
 
@@ -55,13 +60,19 @@ class Player:
                 self.animation_timer = 0
                 self.x_sprite += 1
 
-                if self.x_sprite > 5:
+                if self.x_sprite > 2:
                     self.x_sprite = 0
         else:
-            self.x_sprite = 0  # parado
+            self.x_sprite = 1  # frame parado (meio)
 
     def draw(self, screen):
 
-        frame = pygame.Rect(self.x_sprite * 80, self.y_sprite, 80, 80)
+        frame = pygame.Rect(
+            self.x_sprite * self.frame_width + 6,  # ajuste fino X
+            self.y_sprite * self.frame_height + 12,  # ajuste fino Y
+            self.frame_width - 32,  # corta sobra lateral
+            self.frame_height - 32,  # corta sobra vertical
+
+        )
 
         screen.blit(self.sprite, self.rect, frame)
